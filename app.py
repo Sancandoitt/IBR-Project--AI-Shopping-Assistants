@@ -6,15 +6,19 @@ from wordcloud import WordCloud
 import seaborn as sns
 import statsmodels.api as sm
 
-# 1. Load Data
 st.title("Dubai AI Shopping Assistant Survey Dashboard")
-st.markdown("_Live analysis of MBA survey data — Sanchit Singh Thapa_")
+st.markdown("_Upload your latest Google Forms Excel/CSV to update the dashboard_")
 
-uploaded_file = st.file_uploader("Upload your Google Forms CSV here", type=["csv"])
+uploaded_file = st.file_uploader("Upload your survey data file here (.csv or .xlsx)", type=["csv", "xlsx"])
+
 if uploaded_file:
-    df = pd.read_csv(uploaded_file)
+    if uploaded_file.name.endswith('.csv'):
+        df = pd.read_csv(uploaded_file)
+    else:
+        df = pd.read_excel(uploaded_file)
+    st.success(f"Loaded {len(df)} responses! Ready for analysis.")
 else:
-    st.info("Please upload your latest survey CSV to begin. (Export from Google Forms)")
+    st.info("Please upload your exported Google Forms file to begin.")
     st.stop()
 
 # 2. Data Cleaning (example: rename columns if needed)
